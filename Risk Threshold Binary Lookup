@@ -1,0 +1,54 @@
+import java.util.*;
+
+public class RiskBands {
+    public static int linearSearch(int[] arr, int target) {
+        int comps = 0;
+        for (int i = 0; i < arr.length; i++) {
+            comps++;
+            if (arr[i] == target) {
+                System.out.println("Linear: found at index " + i + " (" + comps + " comps)");
+                return i;
+            }
+        }
+        System.out.println("Linear: not found (" + comps + " comps)");
+        return -1;
+    }
+
+    public static int lowerBound(int[] arr, int target) {
+        int low = 0, high = arr.length;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] < target) low = mid + 1;
+            else high = mid;
+        }
+        return low;
+    }
+
+    public static int upperBound(int[] arr, int target) {
+        int low = 0, high = arr.length;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] <= target) low = mid + 1;
+            else high = mid;
+        }
+        return low;
+    }
+
+    public static void floorCeil(int[] arr, int target) {
+        int lb = lowerBound(arr, target);
+        int ub = upperBound(arr, target);
+
+        Integer floor = (lb - 1 >= 0) ? arr[lb - 1] : null;
+        Integer ceil = (lb < arr.length) ? arr[lb] : null;
+
+        System.out.println("Binary floor(" + target + "): " + floor + ", ceiling: " + ceil);
+    }
+
+    public static void main(String[] args) {
+        int[] risks = {10, 25, 50, 100};
+        int target = 30;
+
+        linearSearch(risks, target);
+        floorCeil(risks, target);
+    }
+}
